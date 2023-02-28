@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  bot:
+    build: .
+    depends_on:
+      - db
+  db:
+    image: "redis:alpine"
+    command: "redis-server --requirepass ${REDIS_PASSWORD} --port ${REDIS_PORT}"
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+
+volumes:
+  redis_data:
+    driver: local
