@@ -56,12 +56,8 @@ async fn main() -> anyhow::Result<()> {
     let token = env::var("DISCORD_TOKEN")?;
     let api_key = env::var("RIOT_API_KEY")?;
     let db_password = env::var("REDIS_PASSWORD")?;
-    let db_hostname = env::var("REDIS_HOSTNAME")?;
     let db_port = env::var("REDIS_PORT")?;
-    let db_url = format!(
-        "redis://default:{}@{}:{}",
-        db_password, db_hostname, db_port
-    );
+    let db_url = format!("redis://default:{}@db:{}", db_password, db_port);
 
     let riot_api = RiotApi::new(api_key);
 
@@ -337,7 +333,7 @@ async fn update_scoreboard(ctx: &Arc<Context>) -> Result<(), Box<dyn Error + Sen
         }
         dbg!(rank_content.len());
         let embed = EmbedBuilder::new()
-            .title("OME SoloQ Leaderboard")
+            .title("SoloQ Leaderboard")
             .description(rank_content)
             .validate()?
             .build();
